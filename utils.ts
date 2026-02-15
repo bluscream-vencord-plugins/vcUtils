@@ -1,18 +1,19 @@
 import { ChannelStore, FluxDispatcher, Toasts } from "@webpack/common";
 import { findStoreLazy } from "@webpack";
-import { pluginName, settings } from "./settings";
+import { settings } from "./settings";
+import { pluginInfo } from "./index";
 import { statuses } from "./state";
 
 const ChannelStatusStore = findStoreLazy("ChannelStatusStore");
 
 export function log(...args: any[]) {
     if (settings.store.logging) {
-        console.log(`[${pluginName}]`, ...args);
+        console.log(`[${pluginInfo.name}]`, ...args);
     }
 }
 
 export function showToast(message: string, error?: any | undefined) {
-    if (error) console.error(`[${pluginName}] ${message}:`, error);
+    if (error) console.error(`[${pluginInfo.name}] ${message}:`, error);
     else log(`${message}`);
     Toasts.show({
         message,
@@ -97,7 +98,7 @@ export function getVoiceChannelStatusFromUI(channelId: string): string | null {
         log(`Channel ${channelId} not found in UI`);
         return null;
     } catch (error) {
-        console.error(`[${pluginName}] Error getting status from UI:`, error);
+        console.error(`[${pluginInfo.name}] Error getting status from UI:`, error);
         return null;
     }
 }

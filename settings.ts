@@ -1,8 +1,6 @@
 import { definePluginSettings } from "@api/Settings";
 import { OptionType } from "@utils/types";
 
-export const pluginName = "blu-vc-utils";
-
 export const settings = definePluginSettings({
     fallbackDict: {
         type: OptionType.BOOLEAN,

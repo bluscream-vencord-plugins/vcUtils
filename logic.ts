@@ -2,7 +2,8 @@ import { ChannelStore, MessageStore, UserStore, VoiceStateStore } from "@webpack
 import { type Channel } from "@vencord/discord-types";
 import { isVoiceChannel } from "./utils/channels";
 import { copyWithToast } from "@utils/discord";
-import { settings, pluginName } from "./settings";
+import { settings } from "./settings";
+import { pluginInfo } from "./index";
 import { log, getVoiceChannelStatus, extractCodeWithIgnore } from "./utils";
 
 export async function extractCode(channel: Channel): Promise<string | null> {
@@ -52,7 +53,7 @@ export async function extractCode(channel: Channel): Promise<string | null> {
             }
         }
     } catch (error) {
-        console.error(`[${pluginName}] Error extracting code from messages:`, error);
+        console.error(`[${pluginInfo.name}] Error extracting code from messages:`, error);
     }
 
     log(`No code found in channel`);
@@ -90,7 +91,7 @@ export async function handleVoiceStateUpdate(voiceState: any) {
             log(`❌ No code found for auto-extraction`);
         }
     } catch (error) {
-        console.error(`[${pluginName}] ❌ Error in auto-extract:`, error);
+        console.error(`[${pluginInfo.name}] ❌ Error in auto-extract:`, error);
     }
 }
 
@@ -115,6 +116,6 @@ export async function handleVoiceChannelStatusUpdate(channelId: string, guildId:
             copyWithToast(code, `Auto-extracted code ${code} copied`);
         }
     } catch (error) {
-        console.error(`[${pluginName}] ❌ Error in status update auto-extract:`, error);
+        console.error(`[${pluginInfo.name}] ❌ Error in status update auto-extract:`, error);
     }
 }
