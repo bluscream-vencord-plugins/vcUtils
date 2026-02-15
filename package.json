@@ -1,0 +1,19 @@
+{
+    "name": "vcUtils",
+    "version": "1.0.0",
+    "description": "Voice Channel Utilities",
+    "main": "index.tsx",
+    "author": {
+        "name": "Bluscream",
+        "url": "https://github.com/Bluscream"
+    },
+    "license": "GPL-3.0-or-later",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bluscream-vencord-plugins/blu-vc-utils.git"
+    },
+    "vencord": {
+        "plugin": true,
+        "userPlugin": true
+    }
+}
