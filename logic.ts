@@ -53,7 +53,7 @@ export async function extractCode(channel: Channel): Promise<string | null> {
             }
         }
     } catch (error) {
-        console.error(`[${pluginInfo.name}] Error extracting code from messages:`, error);
+        console.error(`[vcUtils] Error extracting code from messages:`, error);
     }
 
     log(`No code found in channel`);
@@ -91,7 +91,7 @@ export async function handleVoiceStateUpdate(voiceState: any) {
             log(`❌ No code found for auto-extraction`);
         }
     } catch (error) {
-        console.error(`[${pluginInfo.name}] ❌ Error in auto-extract:`, error);
+        console.error(`[vcUtils] ❌ Error in auto-extract:`, error);
     }
 }
 

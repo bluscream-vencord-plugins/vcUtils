@@ -8,7 +8,7 @@ const ChannelStatusStore = findStoreLazy("ChannelStatusStore");
 
 export function log(...args: any[]) {
     if (settings.store.logging) {
-        console.log(`[${pluginInfo.name}]`, ...args);
+        console.log(`[vcUtils]`, ...args);
     }
 }
 

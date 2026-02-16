@@ -1,31 +1,39 @@
-export const pluginInfo = {
-    id: "vcUtils",
-    name: "Voice Channel Utilities",
-    description: "Voice channel copy utilities (name, status, code)",
-    color: "#7289da"
-};
-
-// Created at 2026-01-10 11:03:00
-
+//// Plugin originally written for Equicord at 2026-02-16 by https://github.com/Bluscream, https://antigravity.google
+// region Imports
 import { Logger } from "@utils/Logger";
-
-const logger = new Logger(pluginInfo.name, pluginInfo.color);
-
 import definePlugin from "@utils/types";
 import { UserStore, VoiceStateStore } from "@webpack/common";
+
 import { registerSharedContextMenu } from "./utils/menus";
 import { settings } from "./settings";
 import { statuses } from "./state";
 import { log } from "./utils";
 import { handleVoiceStateUpdate } from "./logic";
 import { VoiceChannelContext, UserContextMenuPatch } from "./menus";
+// endregion Imports
 
-export default definePlugin({
-    name: "Voice Channel Utilities",
-    description: "Voice channel copy utilities (name, status, code)",
+// region PluginInfo
+export const pluginInfo = {
+    id: "voiceChannelUtils",
+    name: "VoiceChannelUtils",
+    description: "Voice channel utilities for copying names, statuses, and codes",
+    color: "#7289da",
     authors: [
         { name: "Bluscream", id: 467777925790564352n },
-        { name: "Cursor.AI", id: 0n }],
+        { name: "Assistant", id: 0n }
+    ],
+};
+// endregion PluginInfo
+
+// region Variables
+const logger = new Logger(pluginInfo.id, pluginInfo.color);
+// endregion Variables
+
+// region Definition
+export default definePlugin({
+    name: pluginInfo.name,
+    description: pluginInfo.description,
+    authors: pluginInfo.authors,
     settings,
     flux: {
         VOICE_CHANNEL_STATUS_UPDATE({ type, id, guildId, status }) {
@@ -39,13 +47,14 @@ export default definePlugin({
         },
         VOICE_STATE_UPDATES({ voiceStates }) {
             log(`🎯 VOICE_STATE_UPDATES flux event received:`, voiceStates.length, "states");
-            const myId = UserStore.getCurrentUser().id;
+            const me = UserStore.getCurrentUser();
+            if (!me) return;
 
             for (const voiceState of voiceStates) {
-                if (voiceState.userId === myId) {
+                if (voiceState.userId === me.id) {
                     log(`🎯 Processing my voice state update:`, voiceState);
                     handleVoiceStateUpdate(voiceState);
-                    break; // Only process our own voice state
+                    break;
                 }
             }
         },
@@ -66,8 +75,11 @@ export default definePlugin({
     stopCleanup: null as (() => void) | null,
     start() {
         log(`🚀 Plugin started - auto-extract servers: ${settings.store.autoExtractServers}`);
-        log(`🎤 Current voice state:`, VoiceStateStore.getVoiceStateForUser(UserStore.getCurrentUser().id));
-        this.stopCleanup = registerSharedContextMenu(pluginInfo.name, {
+        const me = UserStore.getCurrentUser();
+        if (me) {
+            log(`🎤 Current voice state:`, VoiceStateStore.getVoiceStateForUser(me.id));
+        }
+        this.stopCleanup = registerSharedContextMenu(pluginInfo.id, {
             "channel-context": (children, props) => {
                 if (props.channel) VoiceChannelContext(children, props);
             },
@@ -80,3 +92,4 @@ export default definePlugin({
         this.stopCleanup?.();
     }
 });
+// endregion Definition
