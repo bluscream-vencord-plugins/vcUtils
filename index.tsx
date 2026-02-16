@@ -12,18 +12,8 @@ import { handleVoiceStateUpdate } from "./logic";
 import { VoiceChannelContext, UserContextMenuPatch } from "./menus";
 // endregion Imports
 
-// region PluginInfo
-export const pluginInfo = {
-    id: "voiceChannelUtils",
-    name: "VoiceChannelUtils",
-    description: "Voice channel utilities for copying names, statuses, and codes",
-    color: "#7289da",
-    authors: [
-        { name: "Bluscream", id: 467777925790564352n },
-        { name: "Assistant", id: 0n }
-    ],
-};
-// endregion PluginInfo
+import { pluginInfo } from "./info";
+export { pluginInfo };
 
 // region Variables
 const logger = new Logger(pluginInfo.id, pluginInfo.color);
